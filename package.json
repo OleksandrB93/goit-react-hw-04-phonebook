@@ -1,8 +1,8 @@
 {
-  "name": "goit-react-hw-03-phonebook",
+  "name": "goit-react-hw-04-phonebook",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://oleksandrb93.github.io/goit-react-hw-03-phonebook/",
+  "homepage": "https://oleksandrb93.github.io/goit-react-hw-04-phonebook/",
   "dependencies": {
     "@emotion/css": "^11.10.0",
     "@emotion/react": "^11.10.5",
@@ -48,3 +48,8 @@
     "gh-pages": "^4.0.0"
   }
 }
+
+
+
+
+

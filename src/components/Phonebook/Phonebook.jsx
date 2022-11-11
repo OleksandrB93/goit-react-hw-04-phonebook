@@ -1,74 +1,87 @@
 import { nanoid } from "nanoid";
-import React, { Component } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import { HiUserAdd } from "react-icons/hi";
-import { NameLabel, AddContactBtn, Input,IconAdd } from "./Phonebook.styled";
+import { NameLabel, AddContactBtn, Input } from "./Phonebook.styled";
 
-export default class Phonebook extends Component {
-  state = {
-    name: "",
-    phoneNumber: "",
-    img: "https://cdn-icons-png.flaticon.com/512/2922/2922506.png",
+export default function Phonebook({ onSubmit }) {
+  const [name, setName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [img, setImg] = useState(
+    "https://cdn-icons-png.flaticon.com/512/2922/2922506.png"
+  );
+
+  const nameInputId = nanoid();
+  const phoneNumberInputId = nanoid();
+
+  const handleChange = (event) => {
+    const { name, value } = event.currentTarget;
+
+    switch (name) {
+      case "name":
+        setName(value);
+        break;
+
+      case "phoneNumber":
+        setPhoneNumber(value);
+        break;
+
+      default:
+        return;
+    }
   };
 
-  nameInputId = nanoid();
-  phoneNumberInputId = nanoid();
-
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({ [name]: value });
-  };
-
-  handleSubmit = (event) => {
+  const handleSubmit = (event) => {
     event.preventDefault();
 
-    this.props.onSubmit(this.state);
-    this.resetSubmit();
+    onSubmit(name, phoneNumber);
+    resetSubmit();
   };
 
-  resetSubmit = () => {
-    this.setState({ name: "", phoneNumber: "", img: "" });
+  const resetSubmit = () => {
+    setName("");
+    setPhoneNumber("");
+    setImg("");
   };
-  render() {
-    return (
-      <div>
-        <form action="" onSubmit={this.handleSubmit}>
-          <NameLabel htmlFor={this.nameInputId}>
-            Name:
-            <Input
-              type="text"
-              name="name"
-              pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
-              title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
-              required
-              value={this.state.name}
-              onChange={this.handleChange}
-              id={this.nameInputId}
-              placeholder="Please write name"
-            />
-          </NameLabel>
-          <label htmlFor={this.phoneNumberInputId}>
-            Phone number:
-            <Input
-              type="tel"
-              name="phoneNumber"
-              pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
-              title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
-              required
-              value={this.state.phoneNumber}
-              onChange={this.handleChange}
-              id={this.phoneNumberInputId}
-              placeholder="Please write number"
-            />
-          </label>
-          <AddContactBtn tupe="submit">
-            <HiUserAdd fill='#601c80' />
-          </AddContactBtn>
-        </form>
-      </div>
-    );
-  }
+  return (
+    <div>
+      <form action="" onSubmit={handleSubmit}>
+        <NameLabel htmlFor={nameInputId}>
+          Name:
+          <Input
+            type="text"
+            name="name"
+            pattern="^[a-zA-Zа-яА-Я]+(([' -][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+            title="Name may contain only letters, apostrophe, dash and spaces. For example Adrian, Jacob Mercer, Charles de Batz de Castelmore d'Artagnan"
+            required
+            value={name}
+            onChange={handleChange}
+            id={nameInputId}
+            placeholder="Please write name"
+          />
+        </NameLabel>
+        <label htmlFor={phoneNumberInputId}>
+          Phone number:
+          <Input
+            type="tel"
+            name="phoneNumber"
+            pattern="\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}"
+            title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
+            required
+            value={phoneNumber}
+            onChange={handleChange}
+            id={phoneNumberInputId}
+            placeholder="Please write number"
+          />
+        </label>
+        <AddContactBtn tupe="submit">
+          <HiUserAdd fill="#7f24a8" />
+        </AddContactBtn>
+      </form>
+    </div>
+  );
 }
+
 Phonebook.prototypes = {
   name: PropTypes.string.isRequired,
   phoneNumber: PropTypes.string.isRequired,
